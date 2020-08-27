@@ -472,3 +472,17 @@ h1 {
 .action label {
     padding: 6px 0;
 }
+
+.damage {
+    position: absolute;
+    top: -35px;
+    left: 20px;
+    font-weight: 700;
+    color: red;
+    font-size: 30px;
+}
+
+.enemy .damage {
+    left: unset;
+    right: 20px;
+}
