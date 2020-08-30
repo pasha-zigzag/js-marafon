@@ -31,14 +31,42 @@ const enemy = {
 }
 
 character.kickBtn.addEventListener('click', function() {
-    changeMove(this, enemy)
+    characterKick.call(this)
+    // changeMove(this, enemy)
     enemy.changeHP(random(20))
 })
 
 enemy.kickBtn.addEventListener('click', function() {
-    changeMove(this, character)
+    enemyKick.call(this)
+    // changeMove(this, character)
     character.changeHP(random(50))
 })
+
+// function getClickCount() {
+//     let click = 0
+//     return function() {
+//         console.log(++click)
+//     }
+// }
+
+function getKickNumber(maxCount, kickDivID) {
+    return function() {
+        $div = document.querySelector('#' + kickDivID)
+        maxCount--
+        $div.innerHTML = `Осталось ударов <b>${maxCount}</b>` 
+        if(maxCount === 0) {
+            this.disabled = true   
+        }
+    }
+}
+
+let characterClick = getClickCount()
+let enemyClick = getClickCount()
+
+let characterKick = getKickNumber(4, 'kick-count-character')
+let enemyKick = getKickNumber(5, 'kick-count-enemy')
+
+
 
 function changeHP(count) {
     this.hp.current -= count
@@ -76,10 +104,10 @@ function random(num) {
     return Math.ceil(Math.random() * num)
 }
 
-function changeMove(clickedBtn, person) {
-    clickedBtn.disabled = true
-    person.kickBtn.disabled = false
-}
+// function changeMove(clickedBtn, person) {
+//     clickedBtn.disabled = true
+//     person.kickBtn.disabled = false
+// }
 
 function endGame(person) {
     alert('Бедный ' + person.name + ' проиграл!')
