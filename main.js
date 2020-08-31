@@ -2,6 +2,9 @@ function getById(id) {
     return document.getElementById(id)
 }
 
+characterKickDiv = getById('kick-count-character')
+enemyKickDiv = getById('kick-count-enemy')
+
 const character = {
     name: 'Pikachu',
     hp: {
@@ -31,14 +34,27 @@ const enemy = {
 }
 
 character.kickBtn.addEventListener('click', function() {
-    changeMove(this, enemy)
+    characterKick.call(this)
     enemy.changeHP(random(20))
 })
 
 enemy.kickBtn.addEventListener('click', function() {
-    changeMove(this, character)
+    enemyKick.call(this)
     character.changeHP(random(50))
 })
+
+function getKickNumber(maxCount, kickDiv) {
+    return function() {
+        maxCount--
+        kickDiv.innerHTML = `Осталось ударов <b>${maxCount}</b>` 
+        if(maxCount === 0) {
+            this.disabled = true   
+        }
+    }
+}
+
+let characterKick = getKickNumber(4, characterKickDiv)
+let enemyKick = getKickNumber(5, enemyKickDiv)
 
 function changeHP(count) {
     this.hp.current -= count
@@ -76,10 +92,10 @@ function random(num) {
     return Math.ceil(Math.random() * num)
 }
 
-function changeMove(clickedBtn, person) {
-    clickedBtn.disabled = true
-    person.kickBtn.disabled = false
-}
+// function changeMove(clickedBtn, person) {
+//     clickedBtn.disabled = true
+//     person.kickBtn.disabled = false
+// }
 
 function endGame(person) {
     alert('Бедный ' + person.name + ' проиграл!')
