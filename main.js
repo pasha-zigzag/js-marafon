@@ -2,6 +2,9 @@ function getById(id) {
     return document.getElementById(id)
 }
 
+characterKickDiv = getById('kick-count-character')
+enemyKickDiv = getById('kick-count-enemy')
+
 const character = {
     name: 'Pikachu',
     hp: {
@@ -32,41 +35,26 @@ const enemy = {
 
 character.kickBtn.addEventListener('click', function() {
     characterKick.call(this)
-    // changeMove(this, enemy)
     enemy.changeHP(random(20))
 })
 
 enemy.kickBtn.addEventListener('click', function() {
     enemyKick.call(this)
-    // changeMove(this, character)
     character.changeHP(random(50))
 })
 
-// function getClickCount() {
-//     let click = 0
-//     return function() {
-//         console.log(++click)
-//     }
-// }
-
-function getKickNumber(maxCount, kickDivID) {
+function getKickNumber(maxCount, kickDiv) {
     return function() {
-        $div = document.querySelector('#' + kickDivID)
         maxCount--
-        $div.innerHTML = `Осталось ударов <b>${maxCount}</b>` 
+        kickDiv.innerHTML = `Осталось ударов <b>${maxCount}</b>` 
         if(maxCount === 0) {
             this.disabled = true   
         }
     }
 }
 
-let characterClick = getClickCount()
-let enemyClick = getClickCount()
-
-let characterKick = getKickNumber(4, 'kick-count-character')
-let enemyKick = getKickNumber(5, 'kick-count-enemy')
-
-
+let characterKick = getKickNumber(4, characterKickDiv)
+let enemyKick = getKickNumber(5, enemyKickDiv)
 
 function changeHP(count) {
     this.hp.current -= count
