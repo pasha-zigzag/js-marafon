@@ -491,3 +491,8 @@ h1 {
     left: unset;
     right: 20px;
 }
+
+#logs {
+    max-height: 200px;
+    overflow-y: scroll;
+}
