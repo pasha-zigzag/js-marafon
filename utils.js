@@ -2,13 +2,21 @@ export function getById(id) {
     return document.getElementById(id)
 }
 
-export function random(num) {
-    return Math.ceil(Math.random() * num)
+export function random(min, max) {
+    let rand = min + Math.random() * (max + 1 - min);
+    return Math.floor(rand);
 }
 
 export function endGame(person) {
     alert('Бедный ' + person.name + ' проиграл!')
-    person.kickBtn.disabled = true
+    const allButtons = document.querySelectorAll('.control .button');
+    allButtons.forEach($item => $item.remove());
+
+    // const $control = document.querySelector('.control')
+    // const $resetBtn = document.createElement("button");
+    // $resetBtn.classList.add('button', 'reset')
+    // $resetBtn.innerText = 'Reset'
+    // $control.appendChild($resetBtn)
 }
 
 export function generateLog(firstPerson, secondPerson, damage) {
@@ -36,7 +44,7 @@ export function generateLog(firstPerson, secondPerson, damage) {
         `${name} пытался что-то сказать, но вдруг, неожиданно ${enemyName} со скуки, разбил бровь сопернику. <b>-${damage} [${current}/${total}]</b>`
     ];
 
-    return logs[random(logs.length - 1)]
+    return logs[random(0, logs.length - 1)]
 }
 
 export function printLog(log) {
@@ -47,12 +55,15 @@ export function printLog(log) {
     $log.insertBefore($p, $log.children[0])
 }
 
-export function getKickNumber(maxCount, kickDiv) {
+export function countBtn(maxCount, kickBtn) {
+    const btnText = kickBtn.innerHTML
+    kickBtn.innerHTML = `${btnText} (<b>${maxCount}</b>)`
+
     return function() {
         maxCount--
-        kickDiv.innerHTML = `Осталось ударов <b>${maxCount}</b>` 
+        kickBtn.innerHTML = `${btnText} (<b>${maxCount}</b>)` 
         if(maxCount === 0) {
-            this.disabled = true   
+            kickBtn.disabled = true   
         }
     }
 }

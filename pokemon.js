@@ -4,14 +4,12 @@ class Selectors {
     constructor(name) {
         this.elHP = getById(`health-${name}`)
         this.elProgressbar = getById(`progressbar-${name}`)
-        this.elDamage = getById(`${name}-damage`),
-        this.kickBtn = getById(`btn-kick-${name}`),
-        this.kickDiv = getById(`kick-count-${name}`)
+        this.elDamage = getById(`${name}-damage`)
     }
 }
 
 class Pokemon extends Selectors {
-    constructor({name, hp, type, selectors}) {
+    constructor({name, hp, type, img, attacks, selectors}) {
         super(selectors)
 
         this.name = name
@@ -20,13 +18,32 @@ class Pokemon extends Selectors {
             total: hp
         }
         this.type = type
+        this.img = img
+        this.attacks = attacks
+        this.role = selectors
 
+        this.render()
+    }
+
+    render = () => {
+        this.renderName()
+        this.renderImage()
         this.renderHP()
     }
 
     renderHP = () => {
         this.renderHPLife()
         this.renderProgressbarHP()
+    }
+
+    renderName = () => {
+        const $nameDiv = getById(`name-${this.role}`)
+        $nameDiv.innerText = this.name
+    }
+
+    renderImage = () => {
+        const $img = getById(`${this.role}-img`);
+        $img.src = this.img
     }
     
     renderHPLife = () => {
@@ -37,6 +54,13 @@ class Pokemon extends Selectors {
     renderProgressbarHP = () => {
         const {elProgressbar, hp: {current, total}} = this
         const procent = current * 100 / total
+
+        if(procent < 60 && procent > 20) {
+            elProgressbar.classList.add('low')
+        } else if (procent <= 20) {
+            elProgressbar.classList.remove('low')
+            elProgressbar.classList.add('critical')
+        }
         elProgressbar.style.width = procent + '%'
     }
 

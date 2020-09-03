@@ -35,13 +35,18 @@ body {
 }
 
 .control {
-    width: 370px;
+    width: 430px;
     height: 260px;
     position: relative;
     margin: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.control button {
+    width: 45%;
 }
 
 .playground {
